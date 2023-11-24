@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  server:
+    command: "poetry run python project/manage.py runserver 0.0.0.0:8000"
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+      - migrate
+    network_mode: host
+
+  migrate:
+    build: .
+    command: >
+      /bin/sh -c "cd project 
+      && poetry run python manage.py makemigrations
+      && poetry run python manage.py migrate
+      && poetry run python manage.py createsuperuser --noinput; exit 0"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+    network_mode: host
+
+  database:
+    build: .
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - .:/app

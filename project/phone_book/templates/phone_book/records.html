@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Records List</title>
+</head>
+<body>
+    {% for record in records %}
+        <h1>{{record.mob}}</h1>
+        <h2>{{record.name}} {{record.family}} {{record.otchestvo}}</h2>
+        <h2>{{record.street}} {{record.house}} {{record.korp}} {{record.apartments|default_if_none:"" }}</h2>
+        <a href="{% url 'record_change' %}"><h2>Изменить контакт</h2></a>
+        <a href="{% url 'record_delete' %}"><h2>Удалить контакт</h2></a>
+        <p>------------------</p>
+    {% endfor %}
+    <a href="{% url 'record_create' %}"><h2>Создать новый контакт</h2></a>
+</body>
+</html>
