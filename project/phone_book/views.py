@@ -22,8 +22,9 @@ class RecordsList(ListView):
 
 
 def record_create(request):
+    pk = ''
     if request.method == "POST":
-        form = RecordForm(request.POST)
+        form = RecordForm(pk=pk, data=request.POST)
         if form.is_valid():
             lists = []
             for i in range(len(models)):
@@ -37,16 +38,15 @@ def record_create(request):
                 form.cleaned_data[titles[i]] = new_object
             Record.objects.create(**form.cleaned_data)
             return redirect('records_list')
-
     else:
-        form = RecordForm()
+        form = RecordForm(pk=pk)
 
     return render(request, "phone_book/add_content.html", {"form": form})
 
 
 def record_change(request, pk):
     if request.method == "POST":
-        form = RecordForm(request.POST)
+        form = RecordForm(pk=pk, data=request.POST)
         if form.is_valid():
             lists = []
             for i in range(len(models)):
@@ -58,6 +58,7 @@ def record_change(request, pk):
                 else:
                     new_object = models[i].objects.get(value=string)
                 form.cleaned_data[titles[i]] = new_object
+            Record.objects.get(id=pk).mob.delete()
             Record.objects.filter(id=pk).update(**form.cleaned_data)
             return redirect('records_list')
 
@@ -71,7 +72,7 @@ def record_change(request, pk):
                                    'korp': record.korp,
                                    'apartments': record.apartments,
                                    'mob': record.mob
-                                   })
+                                   }, pk=pk)
 
     return render(request, "phone_book/add_content.html", {"form": form})
 

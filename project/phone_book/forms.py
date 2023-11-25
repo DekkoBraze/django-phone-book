@@ -15,11 +15,17 @@ class RecordForm(forms.Form):
     apartments = forms.IntegerField(label='Квартира', required=False)
     mob = forms.CharField(max_length=25, label='Телефон')
 
+    def __init__(self, *args, **kwargs):
+        self.pk = kwargs.pop('pk')
+        super(RecordForm, self).__init__(*args, **kwargs)
+
     def clean(self):
         mob = self.cleaned_data['mob']
-        if Mob.objects.filter(value=mob).exists():
+        mob_object = Mob.objects.filter(value=mob)
+        if mob_object.exists() and mob_object[0].record.id != self.pk:
             raise ValidationError("Этот телефон уже записан в системе.")
         return super().clean()
+#Mob.objects.filter(value=mob).exclude(id=self.pk).values('id')
 
 
 

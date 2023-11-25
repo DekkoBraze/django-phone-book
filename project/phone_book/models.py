@@ -2,14 +2,19 @@ from django.db import models
 
 
 class Record(models.Model):
-    family = models.ForeignKey('Family', on_delete=models.CASCADE)
-    name = models.ForeignKey('Name', on_delete=models.CASCADE)
-    otchestvo = models.ForeignKey('Otchestvo', on_delete=models.CASCADE, blank=True)
-    street = models.ForeignKey('Street', on_delete=models.CASCADE, blank=True)
+    family = models.ForeignKey('Family', on_delete=models.CASCADE, related_name='record')
+    name = models.ForeignKey('Name', on_delete=models.CASCADE, related_name='record')
+    otchestvo = models.ForeignKey('Otchestvo', on_delete=models.CASCADE, blank=True, related_name='record')
+    street = models.ForeignKey('Street', on_delete=models.CASCADE, blank=True, related_name='record')
     house = models.CharField(max_length=10, blank=True)
     korp = models.CharField(max_length=10, blank=True)
     apartments = models.IntegerField(null=True, blank=True)
-    mob = models.OneToOneField('Mob', on_delete=models.CASCADE)
+    mob = models.OneToOneField('Mob', on_delete=models.SET_NULL, related_name='record', null=True)
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        if self.mob:
+            self.mob.delete()
 
 
 class Family(models.Model):
