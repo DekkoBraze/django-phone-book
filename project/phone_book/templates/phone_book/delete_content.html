@@ -1,0 +1,9 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+    <form method="post" class="form">
+        {% csrf_token %}
+        <p>Вы действительно хотите удалить контакт?</p>
+        <input type="submit" value="Удалить">
+    </form>
+{% endblock %}

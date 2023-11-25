@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.exceptions import ValidationError
 
 
 class RecordForm(forms.Form):
@@ -14,11 +15,13 @@ class RecordForm(forms.Form):
     apartments = forms.IntegerField(label='Квартира', required=False)
     mob = forms.CharField(max_length=25, label='Телефон')
 
+    def clean(self):
+        mob = self.cleaned_data['mob']
+        if Mob.objects.filter(value=mob).exists():
+            raise ValidationError("Этот телефон уже записан в системе.")
+        return super().clean()
 
-#class RecordModelForm(forms.ModelForm):
-#    family_string = forms.CharField(max_length=30, label='Фамилия')
-#
-#    class Meta:
-#        model = Record
-#        fields = ['name', 'otchestvo', 'street', 'house', 'korp', 'apartments', 'mob']
-#
+
+
+
+

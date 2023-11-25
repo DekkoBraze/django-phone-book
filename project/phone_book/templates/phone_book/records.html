@@ -1,18 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Records List</title>
-</head>
-<body>
-    {% for record in records %}
-        <h1>{{record.mob}}</h1>
-        <h2>{{record.name}} {{record.family}} {{record.otchestvo}}</h2>
-        <h2>{{record.street}} {{record.house}} {{record.korp}} {{record.apartments|default_if_none:"" }}</h2>
-        <a href="{% url 'record_change' %}"><h2>Изменить контакт</h2></a>
-        <a href="{% url 'record_delete' %}"><h2>Удалить контакт</h2></a>
-        <p>------------------</p>
-    {% endfor %}
-    <a href="{% url 'record_create' %}"><h2>Создать новый контакт</h2></a>
-</body>
-</html>
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+<h1 class="heading">Телефонная книга</h1>
+<table>
+    <tr>
+        <th>Телефон</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Отчество</th>
+        <th>Улица</th>
+        <th>Дом</th>
+        <th>Корпус</th>
+        <th>Квартира</th>
+        <th>Update</th>
+        <th>Delete</th>
+        {% for record in records %}
+            <tr>
+                <td>{{record.mob}}</td>
+                <td>{{record.family}}</td>
+                <td>{{record.name}}</td>
+                <td>{{record.otchestvo|default:"-"}}</td>
+                <td>{{record.street|default:"-"}}</td>
+                <td>{{record.house|default:"-"}}</td>
+                <td>{{record.korp|default:"-"}}</td>
+                <td>{{record.apartments|default:"-"}}</td>
+                <td><a href="{% url 'record_change' record.pk %}">Изменить</a></td>
+                <td><a href="{% url 'record_delete' record.pk %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+</table>
+<a href="{% url 'record_create' %}" class="heading"><h2>Создать новый контакт</h2></a>
+{% endblock %}

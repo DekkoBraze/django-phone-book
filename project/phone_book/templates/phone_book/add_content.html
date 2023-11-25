@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New record</title>
-</head>
-<body>
-    <form action="" method="post">
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+    <form action="" method="post" class="form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Добавить!</button>
     </form>
-</body>
-</html>
+{% endblock %}
