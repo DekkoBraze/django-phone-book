@@ -1,0 +1,19 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+<h1 class="heading">Улицы</h1>
+<table>
+    <tr>
+        <th>Улица</th>
+    </tr>
+        {% for street in streets %}
+            <tr>
+                <td>{{street.value}}</td>
+                <td><a href="{% url 'street_update' street.pk %}">Изменить</a></td>
+                <td><a href="{% url 'street_delete' street.pk %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+</table>
+<a href="{% url 'street_create' %}" class="heading"><h2>Добавить улицу</h2></a>
+<a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
+{% endblock %}

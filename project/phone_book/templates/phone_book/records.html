@@ -14,6 +14,7 @@
         <th>Квартира</th>
         <th>Update</th>
         <th>Delete</th>
+    </tr>
         {% for record in records %}
             <tr>
                 <td>{{record.mob}}</td>
@@ -24,10 +25,11 @@
                 <td>{{record.house|default:"-"}}</td>
                 <td>{{record.korp|default:"-"}}</td>
                 <td>{{record.apartments|default:"-"}}</td>
-                <td><a href="{% url 'record_change' record.pk %}">Изменить</a></td>
+                <td><a href="{% url 'record_update' record.pk %}">Изменить</a></td>
                 <td><a href="{% url 'record_delete' record.pk %}">Удалить</a></td>
             </tr>
         {% endfor %}
 </table>
 <a href="{% url 'record_create' %}" class="heading"><h2>Создать новый контакт</h2></a>
+<a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
 {% endblock %}

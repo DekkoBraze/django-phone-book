@@ -4,6 +4,11 @@
 <div class="heading">
     <h1>Добро пожаловать в телефонную книгу!</h1>
     <h2>Здесь вы можете сохранять ваши контакты.</h2>
-    <a href="{% url 'records_list' %}"><h2>Перейти в телефонную книгу.</h2></a>
+    <a href="{% url 'records_list' %}"><h2>Перейти в телефонную книгу</h2></a>
+    <a href="{% url 'families_list' %}"><h2>Перейти к фамилиям</h2></a>
+    <a href="{% url 'names_list' %}"><h2>Перейти к именам</h2></a>
+    <a href="{% url 'otchestvos_list' %}"><h2>Перейти к отчествам</h2></a>
+    <a href="{% url 'streets_list' %}"><h2>Перейти к улицам</h2></a>
+    <a href="{% url 'mobs_list' %}"><h2>Перейти к телефонам</h2></a>
 </div>
 {% endblock %}

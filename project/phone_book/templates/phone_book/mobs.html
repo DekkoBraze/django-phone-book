@@ -1,0 +1,19 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+<h1 class="heading">Телефоны</h1>
+<table>
+    <tr>
+        <th>Телефон</th>
+    </tr>
+        {% for mob in mobs %}
+            <tr>
+                <td>{{mob.value}}</td>
+                <td><a href="{% url 'mob_update' mob.pk %}">Изменить</a></td>
+                <td><a href="{% url 'mob_delete' mob.pk %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+</table>
+<a href="{% url 'mob_create' %}" class="heading"><h2>Добавить телефон</h2></a>
+<a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
+{% endblock %}

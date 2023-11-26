@@ -22,12 +22,55 @@ class RecordForm(forms.Form):
     def clean(self):
         mob = self.cleaned_data['mob']
         mob_object = Mob.objects.filter(value=mob)
-        if mob_object.exists() and mob_object[0].record.id != self.pk:
+        try:
+            if mob_object.exists() and mob_object[0].record.id != self.pk:
+                raise ValidationError("Этот телефон уже записан в системе.")
+        except Record.DoesNotExist:
             raise ValidationError("Этот телефон уже записан в системе.")
         return super().clean()
 #Mob.objects.filter(value=mob).exclude(id=self.pk).values('id')
 
 
+class FamilyForm(forms.ModelForm):
+    class Meta:
+        model = Family
+        fields = ['value']
+        labels = {
+            'value': 'Фамилия',
+        }
 
 
+class NameForm(forms.ModelForm):
+    class Meta:
+        model = Name
+        fields = ['value']
+        labels = {
+            'value': 'Имя',
+        }
 
+
+class OtchestvoForm(forms.ModelForm):
+    class Meta:
+        model = Otchestvo
+        fields = ['value']
+        labels = {
+            'value': 'Отчество',
+        }
+
+
+class StreetForm(forms.ModelForm):
+    class Meta:
+        model = Street
+        fields = ['value']
+        labels = {
+            'value': 'Улица',
+        }
+
+
+class MobForm(forms.ModelForm):
+    class Meta:
+        model = Mob
+        fields = ['value']
+        labels = {
+            'value': 'Телефон',
+        }

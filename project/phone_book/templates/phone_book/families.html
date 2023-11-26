@@ -1,0 +1,19 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+<h1 class="heading">Фамилии</h1>
+<table>
+    <tr>
+        <th>Фамилия</th>
+    </tr>
+        {% for family in families %}
+            <tr>
+                <td>{{family.value}}</td>
+                <td><a href="{% url 'family_update' family.pk %}">Изменить</a></td>
+                <td><a href="{% url 'family_delete' family.pk %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+</table>
+<a href="{% url 'family_create' %}" class="heading"><h2>Добавить фамилию</h2></a>
+<a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
+{% endblock %}

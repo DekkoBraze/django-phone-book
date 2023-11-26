@@ -1,0 +1,19 @@
+{% extends 'phone_book/base.html' %}
+
+{% block content %}
+<h1 class="heading">Отчества</h1>
+<table>
+    <tr>
+        <th>Отчество</th>
+    </tr>
+        {% for otchestvo in otchestvos %}
+            <tr>
+                <td>{{otchestvo.value}}</td>
+                <td><a href="{% url 'otchestvo_update' otchestvo.pk %}">Изменить</a></td>
+                <td><a href="{% url 'otchestvo_delete' otchestvo.pk %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+</table>
+<a href="{% url 'otchestvo_create' %}" class="heading"><h2>Добавить Отчество</h2></a>
+<a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
+{% endblock %}

@@ -50,3 +50,12 @@ class Mob(models.Model):
 
     def __str__(self):
         return self.value
+
+    def delete(self, *args, **kwargs):
+        try:
+            self.record.delete()
+        except Record.DoesNotExist:
+            super().delete(*args, **kwargs)
+        #Телефон пытается удалить объект записи, который уже удален в методе delete записи, поэтому прописываем
+        except ValueError:
+            super().delete(*args, **kwargs)
