@@ -14,6 +14,9 @@
             </tr>
         {% endfor %}
 </table>
+{% if not names %}
+    <h1 class="heading">Пусто...</h1>
+{% endif %}
 <a href="{% url 'name_create' %}" class="heading"><h2>Добавить имя</h2></a>
 <a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
 {% endblock %}

@@ -13,6 +13,18 @@ class Record(models.Model):
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
+        if self.family:
+            if not self.family.record.all().exists():
+                self.family.delete()
+        if self.name:
+            if not self.name.record.all().exists():
+                self.name.delete()
+        if self.otchestvo:
+            if not self.otchestvo.record.all().exists():
+                self.otchestvo.delete()
+        if self.street:
+            if not self.street.record.all().exists():
+                self.street.delete()
         if self.mob:
             self.mob.delete()
 
@@ -23,12 +35,30 @@ class Family(models.Model):
     def __str__(self):
         return self.value
 
+    def delete(self, *args, **kwargs):
+        records = self.record.all()
+        for record in records:
+            record.delete()
+        try:
+            super().delete(*args, **kwargs)
+        except ValueError:
+            pass
+
 
 class Name(models.Model):
     value = models.CharField(max_length=20)
 
     def __str__(self):
         return self.value
+
+    def delete(self, *args, **kwargs):
+        records = self.record.all()
+        for record in records:
+            record.delete()
+        try:
+            super().delete(*args, **kwargs)
+        except ValueError:
+            pass
 
 
 class Otchestvo(models.Model):
@@ -37,12 +67,30 @@ class Otchestvo(models.Model):
     def __str__(self):
         return self.value
 
+    def delete(self, *args, **kwargs):
+        records = self.record.all()
+        for record in records:
+            record.delete()
+        try:
+            super().delete(*args, **kwargs)
+        except ValueError:
+            pass
+
 
 class Street(models.Model):
     value = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return self.value
+
+    def delete(self, *args, **kwargs):
+        records = self.record.all()
+        for record in records:
+            record.delete()
+        try:
+            super().delete(*args, **kwargs)
+        except ValueError:
+            pass
 
 
 class Mob(models.Model):

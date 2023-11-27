@@ -20,11 +20,11 @@
                 <td>{{record.mob}}</td>
                 <td>{{record.family}}</td>
                 <td>{{record.name}}</td>
-                <td>{{record.otchestvo|default:"-"}}</td>
-                <td>{{record.street|default:"-"}}</td>
-                <td>{{record.house|default:"-"}}</td>
-                <td>{{record.korp|default:"-"}}</td>
-                <td>{{record.apartments|default:"-"}}</td>
+                <td>{{record.otchestvo|default:""}}</td>
+                <td>{{record.street|default:""}}</td>
+                <td>{{record.house|default:""}}</td>
+                <td>{{record.korp|default:""}}</td>
+                <td>{{record.apartments|default:""}}</td>
                 <td><a href="{% url 'record_update' record.pk %}">Изменить</a></td>
                 <td><a href="{% url 'record_delete' record.pk %}">Удалить</a></td>
             </tr>
@@ -37,6 +37,6 @@
 <a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
 <h1 class="heading">Поиск по базе</h1>
 <form action="{% url 'search' %}" method="get" class="form">
-  <input name="q" type="text" placeholder="Search...">
+  <input name="q" type="text" placeholder="Поиск...">
 </form>
 {% endblock %}
