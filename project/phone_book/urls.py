@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    path('search/', RecordsSearch.as_view(), name='search'),
     path('records-list/', RecordsList.as_view(), name='records_list'),
     path('create-record', record_create, name='record_create'),
     path('update-record/<int:pk>', record_update, name='record_update'),
@@ -17,9 +18,9 @@ urlpatterns = [
     path('update-name/<int:pk>', NameUpdate.as_view(), name='name_update'),
     path('delete-name/<int:pk>', NameDelete.as_view(), name='name_delete'),
     path('othestvos-list/', OtchestvosList.as_view(), name='otchestvos_list'),
-    path('create-othestvo', OtchestvoCreate.as_view(), name='othestvo_create'),
-    path('update-othestvo/<int:pk>', OtchestvoUpdate.as_view(), name='othestvo_update'),
-    path('delete-othestvo/<int:pk>', OtchestvoDelete.as_view(), name='othestvo_delete'),
+    path('create-othestvo', OtchestvoCreate.as_view(), name='otchestvo_create'),
+    path('update-othestvo/<int:pk>', OtchestvoUpdate.as_view(), name='otchestvo_update'),
+    path('delete-othestvo/<int:pk>', OtchestvoDelete.as_view(), name='otchestvo_delete'),
     path('streets-list/', StreetsList.as_view(), name='streets_list'),
     path('create-street', StreetCreate.as_view(), name='street_create'),
     path('update-street/<int:pk>', StreetUpdate.as_view(), name='street_update'),

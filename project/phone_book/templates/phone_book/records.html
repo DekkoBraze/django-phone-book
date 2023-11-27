@@ -30,6 +30,13 @@
             </tr>
         {% endfor %}
 </table>
+{% if not records %}
+    <h1 class="heading">Пусто...</h1>
+{% endif %}
 <a href="{% url 'record_create' %}" class="heading"><h2>Создать новый контакт</h2></a>
 <a href="{% url 'index' %}" class="heading"><h2>В меню</h2></a>
+<h1 class="heading">Поиск по базе</h1>
+<form action="{% url 'search' %}" method="get" class="form">
+  <input name="q" type="text" placeholder="Search...">
+</form>
 {% endblock %}

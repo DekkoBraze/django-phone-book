@@ -5,6 +5,7 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.db.models import Q
 
 models = [Family, Name, Otchestvo, Street, Mob]
 titles = ['family', 'name', 'otchestvo', 'street', 'mob']
@@ -13,6 +14,23 @@ titles = ['family', 'name', 'otchestvo', 'street', 'mob']
 def index(request):
 
     return render(request, 'phone_book/index.html')
+
+
+class RecordsSearch(ListView):
+    model = Record
+    template_name = 'phone_book/records.html'
+    context_object_name = 'records'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Record.objects.filter(
+            Q(family__value__icontains=query) |
+            Q(name__value__icontains=query) |
+            Q(otchestvo__value__icontains=query) |
+            Q(street__value__icontains=query) |
+            Q(mob__value__icontains=query)
+        )
+        return object_list
 
 
 class RecordsList(ListView):
