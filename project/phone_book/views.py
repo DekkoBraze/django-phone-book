@@ -7,8 +7,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.db.models import Q
 
-models = [Family, Name, Otchestvo, Street, Mob]
-titles = ['family', 'name', 'otchestvo', 'street', 'mob']
+# Атрибуты Record, которые представляют собой объекты и связаны через foreign key
+attributes = {'family': Family, 'name': Name, 'otchestvo': Otchestvo, 'street': Street, 'mob': Mob}
 
 
 def index(request):
@@ -28,6 +28,9 @@ class RecordsSearch(ListView):
             Q(name__value__icontains=query) |
             Q(otchestvo__value__icontains=query) |
             Q(street__value__icontains=query) |
+            Q(house__icontains=query) |
+            Q(korp__icontains=query) |
+            Q(apartments__icontains=query) |
             Q(mob__value__icontains=query)
         )
         return object_list
@@ -44,17 +47,16 @@ def record_create(request):
     if request.method == "POST":
         form = RecordForm(pk=pk, data=request.POST)
         if form.is_valid():
-            lists = []
-            for i in range(len(models)):
-                lists.append(models[i].objects.values_list('value', flat=True))
-                string = form.cleaned_data[titles[i]]
-                if string not in lists[i]:
-                    new_object = models[i](value=string)
+            for model_string, model in attributes.items():           # Проходимся по моделям из словаря
+                lst = model.objects.values_list('value', flat=True)  # Берем список всех значений модели в бд
+                string_from_form = form.cleaned_data[model_string]   # Получаем из формы введенное в нее значение
+                if string_from_form not in lst:                      # Если новое значение не встречается в бд
+                    new_object = model(value=string_from_form)       # Создаем новое значение и сохраняем
                     new_object.save()
                 else:
-                    new_object = models[i].objects.get(value=string)
-                form.cleaned_data[titles[i]] = new_object
-            Record.objects.create(**form.cleaned_data)
+                    new_object = model.objects.get(value=string_from_form)  # Иначе берем ссылку на запись в бд
+                form.cleaned_data[model_string] = new_object                # Присваиваем её полю формы
+            Record.objects.create(**form.cleaned_data)                      # Создаем запись
             return redirect('records_list')
     else:
         form = RecordForm(pk=pk)
@@ -66,20 +68,30 @@ def record_update(request, pk):
     if request.method == "POST":
         form = RecordForm(pk=pk, data=request.POST)
         if form.is_valid():
-            lists = []
-            for i in range(len(models)):
-                lists.append(models[i].objects.values_list('value', flat=True))
-                string = form.cleaned_data[titles[i]]
-                if string not in lists[i]:
-                    new_object = models[i](value=string)
-                    new_object.save()
+            record_query = Record.objects.get(id=pk)  # Получаем ссылки на все старые объекты записи
+            old_objects = {
+                'family': record_query.family,
+                'name': record_query.name,
+                'otchestvo': record_query.otchestvo,
+                'street': record_query.street,
+                'mob': record_query.mob
+            }
+            for model_string, model in attributes.items():
+                lst = model.objects.values_list('value', flat=True)
+                string_from_form = form.cleaned_data[model_string]
+                if string_from_form not in lst:
+                    updated_object = old_objects[model_string]
+                    if updated_object.record.all().count() == 1:  # Если привязана только одна (текущая) запись
+                        updated_object.value = string_from_form   # Заменяем значение старого объекта
+                        updated_object.save()
+                    else:                                         # Иначе создаем новый
+                        updated_object = model(value=string_from_form)
+                        updated_object.save()
                 else:
-                    new_object = models[i].objects.get(value=string)
-                form.cleaned_data[titles[i]] = new_object
-            Record.objects.get(id=pk).mob.delete()
+                    updated_object = model.objects.get(value=string_from_form)
+                form.cleaned_data[model_string] = updated_object
             Record.objects.filter(id=pk).update(**form.cleaned_data)
             return redirect('records_list')
-
     else:
         record = Record.objects.get(id=pk)
         form = RecordForm(initial={'name': record.name,

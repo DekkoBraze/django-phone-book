@@ -28,6 +28,9 @@ class Record(models.Model):
         if self.mob:
             self.mob.delete()
 
+    class Meta:
+        ordering = ['id']
+
 
 class Family(models.Model):
     value = models.CharField(max_length=30)
@@ -43,6 +46,9 @@ class Family(models.Model):
             super().delete(*args, **kwargs)
         except ValueError:
             pass
+
+    class Meta:
+        ordering = ['id']
 
 
 class Name(models.Model):
@@ -60,6 +66,9 @@ class Name(models.Model):
         except ValueError:
             pass
 
+    class Meta:
+        ordering = ['id']
+
 
 class Otchestvo(models.Model):
     value = models.CharField(max_length=30, blank=True)
@@ -75,6 +84,9 @@ class Otchestvo(models.Model):
             super().delete(*args, **kwargs)
         except ValueError:
             pass
+
+    class Meta:
+        ordering = ['id']
 
 
 class Street(models.Model):
@@ -92,6 +104,9 @@ class Street(models.Model):
         except ValueError:
             pass
 
+    class Meta:
+        ordering = ['id']
+
 
 class Mob(models.Model):
     value = models.CharField(max_length=25, unique=True)
@@ -107,3 +122,6 @@ class Mob(models.Model):
         #Телефон пытается удалить объект записи, который уже удален в методе delete записи, поэтому прописываем
         except ValueError:
             super().delete(*args, **kwargs)
+
+    class Meta:
+        ordering = ['id']
