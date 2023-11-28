@@ -18,7 +18,7 @@ def index(request):
 
 class RecordsSearch(ListView):
     model = Record
-    template_name = 'phone_book/records.html'
+    template_name = 'phone_book/lists/records.html'
     context_object_name = 'records'
 
     def get_queryset(self):
@@ -38,7 +38,7 @@ class RecordsSearch(ListView):
 
 class RecordsList(ListView):
     model = Record
-    template_name = 'phone_book/records.html'
+    template_name = 'phone_book/lists/records.html'
     context_object_name = 'records'
 
 
@@ -61,7 +61,7 @@ def record_create(request):
     else:
         form = RecordForm(pk=pk)
 
-    return render(request, "phone_book/add_content.html", {"form": form})
+    return render(request, "phone_book/forms/add_content.html", {"form": form})
 
 
 def record_update(request, pk):
@@ -104,140 +104,140 @@ def record_update(request, pk):
                                    'mob': record.mob
                                    }, pk=pk)
 
-    return render(request, "phone_book/add_content.html", {"form": form})
+    return render(request, "phone_book/forms/add_content.html", {"form": form})
 
 
 class RecordDelete(DeleteView):
     model = Record
-    template_name = 'phone_book/delete_content.html'
+    template_name = 'phone_book/forms/delete_content.html'
     success_url = reverse_lazy('records_list')
 
 
 class FamiliesList(ListView):
     model = Family
-    template_name = 'phone_book/families.html'
+    template_name = 'phone_book/lists/families.html'
     context_object_name = 'families'
 
 
 class FamilyCreate(CreateView):
     form_class = FamilyForm
     model = Family
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('families_list')
 
 
 class FamilyUpdate(UpdateView):
     form_class = FamilyForm
     model = Family
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('families_list')
 
 
 class FamilyDelete(DeleteView):
     model = Family
-    template_name = 'phone_book/delete_content.html'
+    template_name = 'phone_book/forms/delete_content.html'
     success_url = reverse_lazy('families_list')
 
 
 class NamesList(ListView):
     model = Name
-    template_name = 'phone_book/names.html'
+    template_name = 'phone_book/lists/names.html'
     context_object_name = 'names'
 
 
 class NameCreate(CreateView):
     form_class = NameForm
     model = Name
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('names_list')
 
 
 class NameUpdate(UpdateView):
     form_class = NameForm
     model = Name
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('names_list')
 
 
 class NameDelete(DeleteView):
     model = Name
-    template_name = 'phone_book/delete_content.html'
+    template_name = 'phone_book/forms/delete_content.html'
     success_url = reverse_lazy('names_list')
 
 
 class OtchestvosList(ListView):
     model = Otchestvo
-    template_name = 'phone_book/otchestvos.html'
+    template_name = 'phone_book/lists/otchestvos.html'
     context_object_name = 'otchestvos'
 
 
 class OtchestvoCreate(CreateView):
     form_class = OtchestvoForm
     model = Otchestvo
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('otchestvos_list')
 
 
 class OtchestvoUpdate(UpdateView):
     form_class = OtchestvoForm
     model = Otchestvo
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('otchestvos_list')
 
 
 class OtchestvoDelete(DeleteView):
     model = Otchestvo
-    template_name = 'phone_book/delete_content.html'
+    template_name = 'phone_book/forms/delete_content.html'
     success_url = reverse_lazy('otchestvos_list')
 
 
 class StreetsList(ListView):
     model = Street
-    template_name = 'phone_book/streets.html'
+    template_name = 'phone_book/lists/streets.html'
     context_object_name = 'streets'
 
 
 class StreetCreate(CreateView):
     form_class = StreetForm
     model = Street
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('streets_list')
 
 
 class StreetUpdate(UpdateView):
     form_class = StreetForm
     model = Street
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('streets_list')
 
 
 class StreetDelete(DeleteView):
     model = Street
-    template_name = 'phone_book/delete_content.html'
+    template_name = 'phone_book/forms/delete_content.html'
     success_url = reverse_lazy('streets_list')
 
 
 class MobsList(ListView):
     model = Mob
-    template_name = 'phone_book/mobs.html'
+    template_name = 'phone_book/lists/mobs.html'
     context_object_name = 'mobs'
 
 
 class MobCreate(CreateView):
     form_class = MobForm
     model = Mob
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('mobs_list')
 
 
 class MobUpdate(UpdateView):
     form_class = MobForm
     model = Mob
-    template_name = 'phone_book/add_content.html'
+    template_name = 'phone_book/forms/add_content.html'
     success_url = reverse_lazy('mobs_list')
 
 
 class MobDelete(DeleteView):
     model = Mob
-    template_name = 'phone_book/delete_content.html'
+    template_name = 'phone_book/forms/delete_content.html'
     success_url = reverse_lazy('mobs_list')

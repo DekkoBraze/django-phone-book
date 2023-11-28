@@ -12,12 +12,12 @@ class Record(models.Model):
     mob = models.OneToOneField('Mob', on_delete=models.SET_NULL, related_name='record', null=True)
 
     def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
+        super().delete(*args, **kwargs)                # Удаляем record
         if self.family:
-            if not self.family.record.all().exists():
-                self.family.delete()
+            if not self.family.record.all().exists():  # Если family удаленного record не связана еще с чем-то
+                self.family.delete()                   # Удаляем
         if self.name:
-            if not self.name.record.all().exists():
+            if not self.name.record.all().exists():    # Аналогично
                 self.name.delete()
         if self.otchestvo:
             if not self.otchestvo.record.all().exists():
@@ -25,8 +25,8 @@ class Record(models.Model):
         if self.street:
             if not self.street.record.all().exists():
                 self.street.delete()
-        if self.mob:
-            self.mob.delete()
+        if self.mob:                                    # Телефон может быть связан только с одной записью - удаляем
+            self.mob.delete()                           # В любом случае
 
     class Meta:
         ordering = ['id']
@@ -39,7 +39,7 @@ class Family(models.Model):
         return self.value
 
     def delete(self, *args, **kwargs):
-        records = self.record.all()
+        records = self.record.all()     # Удаляем все записи связанные с объектом
         for record in records:
             record.delete()
         try:
@@ -116,12 +116,11 @@ class Mob(models.Model):
 
     def delete(self, *args, **kwargs):
         try:
-            self.record.delete()
+            self.record.delete()             # Вместе с телефоном удаляем соответствующую запись
         except Record.DoesNotExist:
             super().delete(*args, **kwargs)
-        #Телефон пытается удалить объект записи, который уже удален в методе delete записи, поэтому прописываем
-        except ValueError:
-            super().delete(*args, **kwargs)
+        except ValueError:                   # Телефон пытается удалить объект записи, который уже удален в методе
+            super().delete(*args, **kwargs)  # delete записи, поэтому прописываем
 
     class Meta:
         ordering = ['id']

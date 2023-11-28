@@ -20,11 +20,11 @@ class RecordForm(forms.Form):
         super(RecordForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        mob = self.cleaned_data['mob']
-        mob_object = Mob.objects.filter(value=mob)
+        mob_string = self.cleaned_data['mob']
+        mob_object = Mob.objects.filter(value=mob_string)
         try:
-            if mob_object.exists() and mob_object[0].record.id != self.pk:
-                raise ValidationError("Этот телефон уже записан в системе.")
+            if mob_object.exists() and mob_object[0].record.id != self.pk:    # Если телефон уже записан и не присвоен
+                raise ValidationError("Этот телефон уже записан в системе.")  # Данному объекту - предупреждение
         except Record.DoesNotExist:
             raise ValidationError("Этот телефон уже записан в системе.")
         return super().clean()
